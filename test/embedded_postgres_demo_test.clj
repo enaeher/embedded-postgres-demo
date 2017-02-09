@@ -23,12 +23,12 @@
       (finally
         (.close db)))))
 
-(defn with-fixture-data [f]
+(defn with-schema [f]
   (jdbc/with-db-connection [db db-spec]
     (jdbc/execute! db (slurp (io/resource "schema.ddl")))
     (f)))
 
-(t/use-fixtures :once (t/join-fixtures [with-postgres with-fixture-data]))
+(t/use-fixtures :once (t/join-fixtures [with-postgres with-schema]))
 
 (t/deftest sanity-check
   (jdbc/with-db-connection [db db-spec]
